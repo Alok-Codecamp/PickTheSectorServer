@@ -11,9 +11,7 @@ app.use(express.json());
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.mrwnd.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-app.use('/', (req, res) => {
-    return res.sendFile(path.resolve(__dirname, '../../dist', 'index.html'));
-  });
+
 async function run(){
     try{
         await client.connect();
@@ -22,9 +20,7 @@ async function run(){
         const database = client.db("PicTheSector");
         const sectorCollection = database.collection("sector");
        const userCollection = database.collection("user");
-       app.use('/', (req, res) => {
-        return res.sendFile(path.resolve(__dirname, '../../dist', 'index.html'));
-      });
+      
        app.get('/sector',async(req,res)=>{
         const cursor = sectorCollection.find({});
         const sectors = await cursor.toArray();
