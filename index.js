@@ -22,6 +22,9 @@ async function run(){
         const database = client.db("PicTheSector");
         const sectorCollection = database.collection("sector");
        const userCollection = database.collection("user");
+       app.use('/', (req, res) => {
+        return res.sendFile(path.resolve(__dirname, '../../dist', 'index.html'));
+      });
        app.get('/sector',async(req,res)=>{
         const cursor = sectorCollection.find({});
         const sectors = await cursor.toArray();
@@ -40,19 +43,19 @@ async function run(){
         const users = await cursor.toArray();
         res.send(users)
        })
+      
 
     }
     finally{
         // await client.close()
     }
+   
 }
 run().catch(console.dir);
 app.get('/',(req,res)=>{
     res.send('hello world!')
 })
-app.use('/', (req, res) => {
-    return res.sendFile(path.resolve(__dirname, '../../dist', 'index.html'));
-  });
+
 app.listen(port,()=>{
     console.log(`example app listesing at port: ${port}`)
 })
